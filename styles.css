@@ -1,5 +1,14 @@
+h2 {
+    text-align: center;
+}
+
 .pixel {
+    position: absolute;
     background-color: black;
-    height: 30px;
-    width: 30px;
+}
+
+#window {
+    position: relative;
+    margin: auto;
+    margin-top: 50px;
 }

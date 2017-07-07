@@ -18,6 +18,7 @@ function startApp() {
   const eth = new Eth(web3.currentProvider);
   const ethContract = new EthContract(eth);
 
+  initWindow();
   initContract(ethContract);
 }
 
@@ -79,36 +80,82 @@ const abi = [
     }
   ];
 
-const address = '0x8a6fe7a33e09bc0021a3df011cda8b4ccf4c0969';
+const address = '0x341fb0cef01bdaec38771442b6d18a21b45bbbb2';
+
+const WINDOW_SIZE = 4;
+const PIXEL_SIZE = 20;
+
 var contract;
+
+var _x, _y;
+
+function initWindow() {
+    var root = $('#window');
+
+    root.css('width', (WINDOW_SIZE*PIXEL_SIZE) + 'px');
+    root.css('height', (WINDOW_SIZE*PIXEL_SIZE) + 'px');
+
+    for (var x = 0; x < WINDOW_SIZE; x++) {
+        for (var y = 0; y < WINDOW_SIZE; y++) {
+            root.append(createPixel(x, y));
+        }
+    }
+}
+
+function createPixel(x, y) {
+    return $('<div></div>')
+              .addClass('pixel')
+              .css('width', PIXEL_SIZE + 'px')
+              .css('height', PIXEL_SIZE + 'px')
+              .css('top', (x*PIXEL_SIZE) + 'px')
+              .css('left', (y*PIXEL_SIZE) + 'px')
+              .attr('id', 'pixel-' + x + "-" + y)
+              .attr('onclick', 'openBuyPixelModal(' + x + ',' + y + ');')
+              .tooltip({
+                title: 'Pixel (' + x + ',' + y + '): It is free!'
+              });
+}
 
 function initContract(ethContract) {
   const EthMillonDollarHomepage = ethContract(abi);
   contract = EthMillonDollarHomepage.at(address);
 
-  setInterval(function() {
-    getPixel().then(updatePixel);
-  }, 1000);
+  setInterval(updateWindow, 1000);
 }
 
-function getPixel() {
-    return contract.checkPixel(0, 0);
+function updateWindow() {
+    for (var x = 0; x < WINDOW_SIZE; x++) {
+        for (var y = 0; y < WINDOW_SIZE; y++) {
+            console.log('---' + x + ',' + y);
+            getPixel(x, y).then(p => updatePixel(p, x, y));
+        }
+    }
+}
+
+function getPixel(x, y) {
+    return contract.checkPixel(x, y);
 }
 
 function buyPixel() {
-    var price = $('#priceToPay').val();
-    var color = $('#colorToSet').val();
+    var price = $('#price').val();
+    var color = $('#color').val();
 
-    return contract.buyPixel(0, 0, color, parseInt(price), {
+    return contract.buyPixel(_x, _y, color, parseInt(price), {
         from: web3.eth.accounts[0],
         value: web3.toWei(price, 'ether')
     });
 }
 
-function updatePixel(pixel) {
-    $('.pixel').css('background-color', pixel.color ? pixel.color : 'black');
-    $('#owner').text(pixel.owner);
-    //$('#price').text(price);
+function openBuyPixelModal(x, y) {
+    _x = x;
+    _y = y;
+    $('#buyPixelModal').modal('show');
 }
 
+function updatePixel(pixel, x, y) {
+    console.log('Pixel at (' + x + ',' + y + ') has color ' + pixel.color);
+    $('#pixel-' + x + '-' + y).css('background-color', pixel.color ? pixel.color : 'black');
+}
+
+window.openBuyPixelModal = openBuyPixelModal;
 window.buyPixel = buyPixel;
