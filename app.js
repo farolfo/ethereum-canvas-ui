@@ -78,7 +78,7 @@ const abi = [
     }
   ];
 
-const address = '0xbca6fa8b17f355a92b2c272d6403185f433ab8db';
+const address = '0xc90eaec04c6b46fd0b9f8e8f2a1e96c702838881';
 
 const WINDOW_SIZE = 4;
 const PIXEL_SIZE = 20;
@@ -86,20 +86,43 @@ const PIXEL_SIZE = 20;
 var contract;
 
 function initWindow() {
-    d3.select('#window').append('svg')
-        .attr('height', WINDOW_SIZE*PIXEL_SIZE)
+
+    var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+          var elem = d3.select(this);
+          var message = '<strong>Pixel (' + d.x + ',' + d.y + ')</strong><br>';
+
+          if (!elem.attr('price')) {
+            message += "<span style='color:green'>FREE!</span>";
+          } else {
+            message += "<span style='color:green'>ETH " + elem.attr('price') + "</span>";
+          }
+          
+          return message;
+        });
+
+    var window = d3.select('#window').append('svg');
+
+    window.call(tip);
+
+    window.attr('height', WINDOW_SIZE*PIXEL_SIZE)
         .attr('width', WINDOW_SIZE*PIXEL_SIZE)
         .selectAll('rect')
-            .data(getInitialEmptyWindowGrid())
+          .data(getInitialEmptyWindowGrid())
         	.enter()
             .append('rect')
+            .classed('pixel', true)
             .attr('x', d => d.x * PIXEL_SIZE)
-        	.attr('y', d => d.y * PIXEL_SIZE)
-        	.attr('width', PIXEL_SIZE)
+        	  .attr('y', d => d.y * PIXEL_SIZE)
+        	  .attr('width', PIXEL_SIZE)
             .attr('height', PIXEL_SIZE)
             .attr('id', d => 'pixel-' + d.x + "-" + d.y)
             .attr('onclick', d => 'openBuyPixelModal(' + d.x + ',' + d.y + ');')
-            .style('fill', 'black');
+            .style('fill', 'black')
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
 }
 
 function getInitialEmptyWindowGrid() {
@@ -169,8 +192,9 @@ function openBuyPixelModal(x, y) {
 }
 
 function updatePixel(pixel, x, y) {
-    console.log('Pixel at (' + x + ',' + y + ') has color ' + pixel.color);
-    d3.select('#pixel-' + x + '-' + y).style('fill', pixel.color ? pixel.color : 'black');
+    d3.select('#pixel-' + x + '-' + y)
+      .attr('price', pixel.price ? web3.fromWei(pixel.price, 'ether') : '')
+      .style('fill', pixel.color ? pixel.color : 'black');
 }
 
 window.openBuyPixelModal = openBuyPixelModal;
