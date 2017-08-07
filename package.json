@@ -1,0 +1,31 @@
+{
+  "name": "eth-million-dollar-homepage-ui",
+  "version": "0.0.1",
+  "description": "Ethereum's Millon Dollar Homepage UI project.",
+  "scripts": {
+    "deploy": "scripts/deploy.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/farolfo/eth-million-dollar-homepage-ui.git"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "security",
+    "zeppelin",
+    "d3"
+  ],
+  "author": "Franco Arolfo <arolfofranco@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/farolfo/eth-million-dollar-homepage-ui"
+  },
+  "dependencies": {
+    "ethjs-contract": "^0.1.9",
+    "ethjs-query": "^0.2.6"
+  },
+  "homepage": "https://github.com/farolfo/eth-million-dollar-homepage-ui"
+}
