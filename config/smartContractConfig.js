@@ -53,6 +53,28 @@ const smartContractConfig = {
       "outputs": [],
       "payable": true,
       "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "color",
+          "type": "string"
+        }
+      ],
+      "name": "Purchase",
+      "type": "event"
     }
   ]
 };

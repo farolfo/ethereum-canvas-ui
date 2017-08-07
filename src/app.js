@@ -29,11 +29,24 @@ function startApp() {
   initWindow();
 
   setInterval(refreshWindow, 1000);
+  listenPurchaseEvents();
 }
 
 function initContract(ethContract) {
   const EthMillonDollarHomepage = ethContract(smartContractConfig.abi);
   contract = EthMillonDollarHomepage.at(smartContractConfig.address);
+}
+
+function listenPurchaseEvents() {
+  const events = contract.Purchase({}, { fromBlock: 0, toBlock: 'latest' });
+
+  events.watch(function (error, result) {
+    if (!error){
+      console.log('The event is ' + result);
+    } else {
+      console.error('Got error watching Purchase event: ' + error);
+    }
+  });
 }
 
 function initWindow() {
