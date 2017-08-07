@@ -15,5 +15,5 @@ $ npm install
 ### Run
 
 ```bash
-$ browserify app.js -o bundle.js && python -m SimpleHTTPServer 8000
+$ npm run deploy
 ```
