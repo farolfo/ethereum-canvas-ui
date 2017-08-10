@@ -40,3 +40,11 @@ h2 {
   top: 100%;
   left: 0;
 }
+
+.pixel[loading] {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}

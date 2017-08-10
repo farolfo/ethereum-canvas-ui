@@ -14,6 +14,8 @@ $ npm install
 
 ### Run
 
+Make sure to update the file at `config/smartContractConfig.js` settings the correct Smart Contract address to use in the `address` field. Then just run the web app with
+
 ```bash
 $ npm run deploy
 ```

@@ -3,9 +3,23 @@
 const Eth = require('ethjs-query');
 const EthContract = require('ethjs-contract');
 
+/**
+ * You will get a window with a size of WINDOW_SIZE x WINDOW_SIZE.
+ *
+ * @type {number}
+ */
 const WINDOW_SIZE = 20;
-const PIXEL_SIZE = 5;
 
+/**
+ * Each pixel's size.
+ *
+ * @type {number}
+ */
+const PIXEL_SIZE = 3;
+
+/**
+ * The global smart contract.
+ */
 var contract;
 
 window.addEventListener('load', function() {
@@ -21,6 +35,9 @@ window.addEventListener('load', function() {
 
 });
 
+/**
+ * Starts the application, initializing the smart contract, the window gird and starting the respective event listeners.
+ */
 function startApp() {
   const eth = new Eth(web3.currentProvider);
   const ethContract = new EthContract(eth);
@@ -28,43 +45,28 @@ function startApp() {
   initContract(ethContract);
   initWindow();
 
-  setInterval(refreshWindow, 1000);
   listenPurchaseEvents();
+  setInterval(refreshWindow, 1000);
 }
 
+/**
+ * Initializes the smart contract with the given EthContract instance.
+ *
+ * @param ethContract The EthContract instance to be used.
+ */
 function initContract(ethContract) {
   const EthMillonDollarHomepage = ethContract(smartContractConfig.abi);
   contract = EthMillonDollarHomepage.at(smartContractConfig.address);
 }
 
-function listenPurchaseEvents() {
-  const events = contract.Purchase({}, { fromBlock: 0, toBlock: 'latest' });
-
-  events.watch(function (error, result) {
-    if (!error){
-      console.log('The event is ' + result);
-    } else {
-      console.error('Got error watching Purchase event: ' + error);
-    }
-  });
-}
-
+/**
+ * Initializes the window grid.
+ */
 function initWindow() {
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .offset([-10, 0])
-        .html(function(d) {
-          var elem = d3.select(this);
-          var message = '<strong>Pixel (' + d.x + ',' + d.y + ')</strong><br>';
-
-          if (!elem.attr('price')) {
-            message += "<span style='color:green'>FREE!</span>";
-          } else {
-            message += "<span style='color:green'>ETH " + elem.attr('price') + "</span>";
-          }
-          
-          return message;
-        });
+        .html(buildTooltipHtml);
 
     var window = d3.select('#window').append('svg');
 
@@ -73,7 +75,7 @@ function initWindow() {
     window.attr('height', WINDOW_SIZE*PIXEL_SIZE)
         .attr('width', WINDOW_SIZE*PIXEL_SIZE)
         .selectAll('rect')
-          .data(getInitialEmptyWindowGrid())
+          .data(buildInitialEmptyWindowData())
         	.enter()
             .append('rect')
             .classed('pixel', true)
@@ -81,6 +83,7 @@ function initWindow() {
         	  .attr('y', d => d.y * PIXEL_SIZE)
         	  .attr('width', PIXEL_SIZE)
             .attr('height', PIXEL_SIZE)
+            .attr('loading', 'true')
             .attr('id', d => 'pixel-' + d.x + "-" + d.y)
             .attr('onclick', d => 'openBuyPixelModal(' + d.x + ',' + d.y + ');')
             .style('fill', 'black')
@@ -88,6 +91,33 @@ function initWindow() {
             .on('mouseout', tip.hide);
 }
 
+/**
+ * Returns the tooltip html of the given pixel.
+ *
+ * @param p An object with x and y attributes with the pixel coordinates.
+ * @returns {string} The tooltip html.
+ */
+function buildTooltipHtml(p) {
+  var elem = d3.select(this);
+
+  if (elem.attr('loading')) {
+    return '<strong>Loading...</strong>';
+  }
+
+  var message = '<strong>Pixel (' + p.x + ',' + p.y + ')</strong><br>';
+
+  if (!elem.attr('price') || elem.attr('price') == '0') {
+    message += "<span style='color:green'>FREE!</span>";
+  } else {
+    message += "<span style='color:green'>ETH " + elem.attr('price') + "</span>";
+  }
+
+  return message;
+}
+
+/**
+ * Forces a refresh in the window, calling the smart contract one call per pixel.
+ */
 function refreshWindow() {
   for (let x = 0; x < WINDOW_SIZE; x++) {
     for (let y = 0; y < WINDOW_SIZE; y++) {
@@ -96,7 +126,12 @@ function refreshWindow() {
   }
 }
 
-function getInitialEmptyWindowGrid() {
+/**
+ * Returns a plain initial window grid data object to be used by D3 to initialize the window.
+ *
+ * @returns {Array} The array of pixel objects.
+ */
+function buildInitialEmptyWindowData() {
     var resp = [];
     for (var x = 0; x < WINDOW_SIZE; x++) {
         for (var y = 0; y < WINDOW_SIZE; y++) {
@@ -106,10 +141,27 @@ function getInitialEmptyWindowGrid() {
     return resp;
 }
 
+/**
+ * Calls the smart contract and returns the pixel information.
+ *
+ * @param x The x coordinate.
+ * @param y The y coordinate.
+ * @returns {*} The Pixel object.
+ */
 function getPixel(x, y) {
     return contract.checkPixel(x, y);
 }
 
+/**
+ * Variables used to share the pixel coordinates to purchase.
+ */
+var targetX, targetY;
+
+/**
+ * Performs the purchase of the pixel in the (targetX, targetY) coordinates.
+ *
+ * @returns {*} The transaction response.
+ */
 function buyPixel() {
     var price = $('#price').val();
     var color = $('#color').val();
@@ -120,8 +172,12 @@ function buyPixel() {
     });
 }
 
-var targetX, targetY;
-
+/**
+ * Configures the purchase modal header and opens the modal.
+ *
+ * @param x The x coordinate.
+ * @param y The y coordinate.
+ */
 function openBuyPixelModal(x, y) {
     targetX = x;
     targetY = y;
@@ -129,10 +185,33 @@ function openBuyPixelModal(x, y) {
     $('#buyPixelModal').modal('show');
 }
 
+/**
+ * Updates the pixel at (x,y) with the color and price given in the pixel attribute.
+ *
+ * @param pixel The updated pixel.
+ * @param x The x coordinate.
+ * @param y The y coordinate.
+ */
 function updatePixel(pixel, x, y) {
     d3.select('#pixel-' + x + '-' + y)
+      .attr('loading', null)
       .attr('price', pixel.price ? web3.fromWei(pixel.price, 'ether') : '')
       .style('fill', pixel.color ? pixel.color : 'black');
+}
+
+/**
+ * Listens to the Purchase events since the beginning of time.
+ */
+function listenPurchaseEvents() {
+  const events = contract.Purchase({}, { fromBlock: 0, toBlock: 'latest' });
+
+  events.watch(function (error, result) {
+    if (!error){
+      console.log('The event is ' + result);
+    } else {
+      console.error('Got error watching Purchase event: ' + error);
+    }
+  });
 }
 
 window.openBuyPixelModal = openBuyPixelModal;
