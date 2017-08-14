@@ -4,8 +4,7 @@
 trap cleanup EXIT
 
 cleanup() {
-  rm bundle.js
+  kill $(ps aux | grep 'SimpleHTTPServer 8000' | awk '{print $2}')
 }
 
-browserify src/app.js -o bundle.js && python -m SimpleHTTPServer 8000
-
+python -m SimpleHTTPServer 8000

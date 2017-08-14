@@ -23,9 +23,5 @@
   "bugs": {
     "url": "https://github.com/farolfo/eth-million-dollar-homepage-ui"
   },
-  "dependencies": {
-    "ethjs-contract": "^0.1.9",
-    "ethjs-query": "^0.2.6"
-  },
   "homepage": "https://github.com/farolfo/eth-million-dollar-homepage-ui"
 }

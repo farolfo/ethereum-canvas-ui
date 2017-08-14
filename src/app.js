@@ -1,27 +1,47 @@
 'use strict';
 
-const Eth = require('ethjs-query');
-const EthContract = require('ethjs-contract');
-
 /**
  * You will get a window with a size of WINDOW_SIZE x WINDOW_SIZE.
  *
  * @type {number}
  */
-const WINDOW_SIZE = 20;
+const WINDOW_SIZE = 50;
 
 /**
  * Each pixel's size.
  *
  * @type {number}
  */
-const PIXEL_SIZE = 3;
+const PIXEL_SIZE = 6;
+
+/**
+ * Time interval in ms of the background job that refreshes the window by direct calls to the smart contract.
+ * Note that this is just an every so often check as we are using Solidity Events to update the window in real time.
+ *
+ * @type {number}
+ */
+const REFRESH_WINDOW_INTERVAL = 1000 * 60 * 10;
+
+/**
+ * Key used in the localStorage to save the known pixels.
+ * @type {string}
+ */
+const LOCAL_STORAGE_WINDOW_KEY = "localWindow";
+
+/**
+ * Key used in the localStorage to save the last checked block number.
+ * @type {string}
+ */
+const LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 /**
  * The global smart contract.
  */
 var contract;
 
+/**
+ * We must wait to have the web3 element injected by the browser.
+ */
 window.addEventListener('load', function() {
 
   // Check if Web3 has been injected by the browser:
@@ -39,14 +59,19 @@ window.addEventListener('load', function() {
  * Starts the application, initializing the smart contract, the window gird and starting the respective event listeners.
  */
 function startApp() {
-  const eth = new Eth(web3.currentProvider);
-  const ethContract = new EthContract(eth);
-
-  initContract(ethContract);
   initWindow();
+  updateWindowFromLocalStorage();
 
-  listenPurchaseEvents();
-  setInterval(refreshWindow, 1000);
+  initContract().then(function(instance) {
+    contract = instance;
+
+    // The update of the pixels will be handled with Solidity Events
+    listenPurchaseEvents();
+
+    // and we will set a window refresh every so often
+    refreshWindow();
+    setInterval(refreshWindow, REFRESH_WINDOW_INTERVAL);
+  });
 }
 
 /**
@@ -54,9 +79,13 @@ function startApp() {
  *
  * @param ethContract The EthContract instance to be used.
  */
-function initContract(ethContract) {
-  const EthMillonDollarHomepage = ethContract(smartContractConfig.abi);
-  contract = EthMillonDollarHomepage.at(smartContractConfig.address);
+function initContract() {
+  var truffleContract = TruffleContract(smartContractConfig.build);
+
+  truffleContract.setProvider(web3.currentProvider);
+  truffleContract.at(smartContractConfig.address);
+
+  return truffleContract.deployed();
 }
 
 /**
@@ -91,6 +120,19 @@ function initWindow() {
             .on('mouseout', tip.hide);
 }
 
+function updateWindowFromLocalStorage() {
+  var localWindow = JSON.parse(localStorage.getItem(LOCAL_STORAGE_WINDOW_KEY));
+
+  if (localWindow) {
+    _.forEach(localWindow, function(val, key) {
+      console.log('Update via localStorage:');
+      let x = key.split(',')[0];
+      let y = key.split(',')[1];
+      updatePixel(x, y, val.color, val.price);
+    });
+  }
+}
+
 /**
  * Returns the tooltip html of the given pixel.
  *
@@ -121,7 +163,9 @@ function buildTooltipHtml(p) {
 function refreshWindow() {
   for (let x = 0; x < WINDOW_SIZE; x++) {
     for (let y = 0; y < WINDOW_SIZE; y++) {
-      getPixel(x, y).then(p => updatePixel(p, x, y));
+      getPixel(x, y).then(function(p) {
+        updatePixel(x, y, p[2], p[1]);
+      });
     }
   }
 }
@@ -192,26 +236,40 @@ function openBuyPixelModal(x, y) {
  * @param x The x coordinate.
  * @param y The y coordinate.
  */
-function updatePixel(pixel, x, y) {
-    d3.select('#pixel-' + x + '-' + y)
+function updatePixel(x, y, color, price) {
+  console.log('Updating pixel at (' + x + ',' + y + ') with color ' + color + ' and price ' + price);
+
+  d3.select('#pixel-' + x + '-' + y)
       .attr('loading', null)
-      .attr('price', pixel.price ? web3.fromWei(pixel.price, 'ether') : '')
-      .style('fill', pixel.color ? pixel.color : 'black');
+      .attr('price', price ? web3.fromWei(price, 'ether') : '')
+      .style('fill', color ? color : 'black');
 }
 
 /**
- * Listens to the Purchase events since the beginning of time.
+ * Listens to the Purchase events since the beginning of time and update the window accordingly.
  */
 function listenPurchaseEvents() {
-  const events = contract.Purchase({}, { fromBlock: 0, toBlock: 'latest' });
+  const fromBlock = localStorage.getItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY) || 0;
+  const events = contract.Purchase({}, { fromBlock: fromBlock, toBlock: 'latest' });
+
+  console.log('Listening events from block ' + fromBlock + '...');
 
   events.watch(function (error, result) {
     if (!error){
-      console.log('The event is ' + result);
+      localStorage.setItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY, result.blockNumber);
+      updateLocalStorageWindow(result.args.x, result.args.y, result.args.color, result.args.price);
+
+      updatePixel(result.args.x, result.args.y, result.args.color, result.args.price);
     } else {
-      console.error('Got error watching Purchase event: ' + error);
+      console.error('Got error watching the Purchase event: ' + error);
     }
   });
+}
+
+function updateLocalStorageWindow(x, y, color, price) {
+  var localWindow = JSON.parse(localStorage.getItem(LOCAL_STORAGE_WINDOW_KEY)) || {};
+  localWindow[x + ',' + y] = {color: color, price: price};
+  localStorage.setItem(LOCAL_STORAGE_WINDOW_KEY, JSON.stringify(localWindow));
 }
 
 window.openBuyPixelModal = openBuyPixelModal;
