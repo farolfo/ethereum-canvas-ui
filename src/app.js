@@ -5,22 +5,14 @@
  *
  * @type {number}
  */
-const WINDOW_SIZE = 50;
+const WINDOW_SIZE = 400;
 
 /**
  * Each pixel's size.
  *
  * @type {number}
  */
-const PIXEL_SIZE = 6;
-
-/**
- * Time interval in ms of the background job that refreshes the window by direct calls to the smart contract.
- * Note that this is just an every so often check as we are using Solidity Events to update the window in real time.
- *
- * @type {number}
- */
-const REFRESH_WINDOW_INTERVAL = 1000 * 60 * 10;
+const PIXEL_SIZE = 1;
 
 /**
  * Key used in the localStorage to save the known pixels.
@@ -67,10 +59,6 @@ function startApp() {
 
     // The update of the pixels will be handled with Solidity Events
     listenPurchaseEvents();
-
-    // and we will set a window refresh every so often
-    refreshWindow();
-    setInterval(refreshWindow, REFRESH_WINDOW_INTERVAL);
   });
 }
 
@@ -112,7 +100,6 @@ function initWindow() {
         	  .attr('y', d => d.y * PIXEL_SIZE)
         	  .attr('width', PIXEL_SIZE)
             .attr('height', PIXEL_SIZE)
-            .attr('loading', 'true')
             .attr('id', d => 'pixel-' + d.x + "-" + d.y)
             .attr('onclick', d => 'openBuyPixelModal(' + d.x + ',' + d.y + ');')
             .style('fill', 'black')
@@ -158,19 +145,6 @@ function buildTooltipHtml(p) {
 }
 
 /**
- * Forces a refresh in the window, calling the smart contract one call per pixel.
- */
-function refreshWindow() {
-  for (let x = 0; x < WINDOW_SIZE; x++) {
-    for (let y = 0; y < WINDOW_SIZE; y++) {
-      getPixel(x, y).then(function(p) {
-        updatePixel(x, y, p[2], p[1]);
-      });
-    }
-  }
-}
-
-/**
  * Returns a plain initial window grid data object to be used by D3 to initialize the window.
  *
  * @returns {Array} The array of pixel objects.
@@ -183,17 +157,6 @@ function buildInitialEmptyWindowData() {
         }
     }
     return resp;
-}
-
-/**
- * Calls the smart contract and returns the pixel information.
- *
- * @param x The x coordinate.
- * @param y The y coordinate.
- * @returns {*} The Pixel object.
- */
-function getPixel(x, y) {
-    return contract.checkPixel(x, y);
 }
 
 /**

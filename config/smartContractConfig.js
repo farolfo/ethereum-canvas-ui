@@ -307,10 +307,49 @@ const smartContractConfig = {
         "links": {},
         "address": "0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a",
         "updated_at": 1502692786678
+      },
+      "1503178428779": {
+        "events": {
+          "0x56e211b5241df064f15ecbd738a971d3cfc9e96384489ddd491621cdbcce3337": {
+            "anonymous": false,
+            "inputs": [
+              {
+                "indexed": false,
+                "name": "owner",
+                "type": "address"
+              },
+              {
+                "indexed": false,
+                "name": "price",
+                "type": "uint256"
+              },
+              {
+                "indexed": false,
+                "name": "color",
+                "type": "string"
+              },
+              {
+                "indexed": false,
+                "name": "x",
+                "type": "uint256"
+              },
+              {
+                "indexed": false,
+                "name": "y",
+                "type": "uint256"
+              }
+            ],
+            "name": "Purchase",
+            "type": "event"
+          }
+        },
+        "links": {},
+        "address": "0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a",
+        "updated_at": 1503178432292
       }
     },
     "schema_version": "0.0.5",
-    "updated_at": 1502692786678
+    "updated_at": 1503178432292
   }
 };
 
