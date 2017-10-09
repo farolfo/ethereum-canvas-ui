@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- CSS dependencies -->
     <link rel="stylesheet" type="text/css" href="src/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <!-- Fonts dependencies -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Concert+One|Fredoka+One|Open+Sans" rel="stylesheet">
+
+    <!-- JS dependencies -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -15,9 +21,56 @@
     <script type="text/javascript" src="src/app.js"></script>
 </head>
 <body>
-<h2>Ethereum Millon Dollar Homepage</h2>
+<div class="header">
+    <h2>Ethereum Millon Dollar Homepage</h2>
+    <span class="slogan">Own a piece of Computer Science history for 0.01 ETH.</span>
+    <span class="menu">
+        <span class="item">About</span>
+        <span class="item">Buy a Pixel</span>
+        <span class="item">Buy Uploading an Image</span>
+        <span class="item"><i class="fa fa-github" aria-hidden="true"></i> Source code</span>
+    </span>
+</div>
 
 <div id="window"></div>
+
+<div class="about oz-container">
+    <p class="description">Don't miss the opportunity to buy a piece of Computer Science history!</p>
+    <p class="description">Blockchain applications set a new standard in Computer Science and technology, just as the internet did on its beginning.</p>
+
+    <span class="centered oz-container">
+        <span class="about-item">
+            <i class="fa fa-btc" aria-hidden="true"></i>
+            <span class="desc">Built on top of the Blockchain technology that Bitcoin is.</span>
+        </span>
+        <span class="about-item">
+            <i class="fa fa-rocket" aria-hidden="true"></i>
+            <span class="desc">Using an Ethereum smart contract as backend engine.</span>
+        </span>
+        <span class="about-item">
+            <i class="fa fa-lock" aria-hidden="true"></i>
+            <span class="desc">Based on the latest cryptographic security practices.</span>
+        </span>
+        <span class="about-item">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+            <span class="desc">Developed as a decentralized application (DApp).</span>
+        </span>
+    </span>
+</div>
+
+<div class="buy-pixel oz-container">
+    <h3>Buy a single pixel for 0.01 ETH</h3>
+
+</div>
+
+<div class="buy-pixel-by-image oz-container">
+    <h3>Buy pixels uploading an image</h3>
+
+</div>
+
+<div class="footer">
+
+</div>
 
 <div id="buyPixelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
     <div class="modal-dialog modal-sm" role="document">

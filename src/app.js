@@ -5,7 +5,7 @@
  *
  * @type {number}
  */
-const WINDOW_SIZE = 400;
+const WINDOW_SIZE = 300;
 
 /**
  * Each pixel's size.
@@ -56,8 +56,6 @@ function startApp() {
 
   initContract().then(function(instance) {
     contract = instance;
-
-    // The update of the pixels will be handled with Solidity Events
     listenPurchaseEvents();
   });
 }
@@ -85,7 +83,7 @@ function initWindow() {
         .offset([-10, 0])
         .html(buildTooltipHtml);
 
-    var window = d3.select('#window').append('svg');
+    var window = d3.select('#window').append('svg').attr('onclick', d => 'openBuyPixelModal();');
 
     window.call(tip);
 
@@ -181,14 +179,11 @@ function buyPixel() {
 
 /**
  * Configures the purchase modal header and opens the modal.
- *
- * @param x The x coordinate.
- * @param y The y coordinate.
  */
-function openBuyPixelModal(x, y) {
-    targetX = x;
-    targetY = y;
-    $('#targetPixel').text('(' + x + ',' + y + ')');
+function openBuyPixelModal() {
+    targetX = event.target.qgetAttribute('x');
+    targetY = event.target.getAttribute('y');
+    $('#targetPixel').text('(' + targetX + ',' + targetY + ')');
     $('#buyPixelModal').modal('show');
 }
 
