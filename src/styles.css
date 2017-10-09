@@ -39,6 +39,14 @@
     margin-left: 33px;
 }
 
+.header .menu .item i {
+    margin-right: 4px;
+}
+
+.header .menu .item a {
+    color: black;
+}
+
 .pixel:hover {
 	fill: rgb(116, 242, 247) !important;
 }
@@ -87,6 +95,57 @@
     margin-right: 15px;
     font-family: 'Open Sans', sans-serif;
     margin-top: 50px;
+}
+
+.buy-pixel {
+    color: #32444D;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.buy-pixel h3 {
+    text-align: center;
+    font-size: 27px;
+    margin-top: 55px;
+}
+
+.buy-pixel p {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.buy-pixel p.step {
+    margin-top: 19px;
+}
+
+.buy-pixel .coming-soon {
+    font-family: 'Anton', sans-serif;
+    font-size: 40px;
+    margin-top: 23px;
+    color: #D1344E;
+}
+
+.buy-pixel .coming-soon-desc {
+    width: 450px;
+    margin: auto;
+    margin-top: 12px;
+    margin-bottom: 100px;
+}
+
+.footer {
+    background-color: #3A3B3C;
+    height: 80px;
+    position: absolute;
+    color: white;
+}
+
+.footer .mail {
+    text-align: center;
+    margin-top: 30px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.footer .mail i {
+    margin-right: 8px;
 }
 
 #window {

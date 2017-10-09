@@ -181,7 +181,7 @@ function buyPixel() {
  * Configures the purchase modal header and opens the modal.
  */
 function openBuyPixelModal() {
-    targetX = event.target.qgetAttribute('x');
+    targetX = event.target.getAttribute('x');
     targetY = event.target.getAttribute('y');
     $('#targetPixel').text('(' + targetX + ',' + targetY + ')');
     $('#buyPixelModal').modal('show');

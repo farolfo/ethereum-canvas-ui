@@ -8,7 +8,7 @@
 
     <!-- Fonts dependencies -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Concert+One|Fredoka+One|Open+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Concert+One|Fredoka+One|Open+Sans|Anton" rel="stylesheet">
 
     <!-- JS dependencies -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -25,10 +25,7 @@
     <h2>Ethereum Millon Dollar Homepage</h2>
     <span class="slogan">Own a piece of Computer Science history for 0.01 ETH.</span>
     <span class="menu">
-        <span class="item">About</span>
-        <span class="item">Buy a Pixel</span>
-        <span class="item">Buy Uploading an Image</span>
-        <span class="item"><i class="fa fa-github" aria-hidden="true"></i> Source code</span>
+        <span class="item"><a href="https://github.com/farolfo/eth-million-dollar-homepage" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a></span>
     </span>
 </div>
 
@@ -61,15 +58,25 @@
 <div class="buy-pixel oz-container">
     <h3>Buy a single pixel for 0.01 ETH</h3>
 
-</div>
+    <p>Note that you need to use the MetaMask Chrome extension for this action.</p>
 
-<div class="buy-pixel-by-image oz-container">
+    <p class="step">1. Hover on any pixel in the above window and click on any that says FREE.</p>
+
+    <p class="step">2. Select the color you want for that pixel, using the color's name or HEX code.</p>
+
+    <p class="step">3. Click the Buy button and pay with the MetaMask payment dialog.</p>
+
+    <p class="or">or...</p>
+
     <h3>Buy pixels uploading an image</h3>
 
+    <p class="coming-soon">COMING SOON!</p>
+
+    <p class="coming-soon-desc">You will be able to upload an image of yours and drag it to the window to your desired position, with an optional link.</p>
 </div>
 
-<div class="footer">
-
+<div class="footer oz-container">
+    <div class="mail"><i class="fa fa-envelope-o" aria-hidden="true"></i>  Keep in touch with us at <strong>contacto@email.com</strong></div>
 </div>
 
 <div id="buyPixelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -84,7 +91,7 @@
                     <div class="form-group">
                         <label for="price" class="col-sm-2 control-label">Price (ETH)</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="price" placeholder="3.1415">
+                            <input type="text" class="form-control" id="price" value="0.01" disabled>
                         </div>
                     </div>
                     <div class="form-group">
