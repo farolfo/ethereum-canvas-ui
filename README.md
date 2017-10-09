@@ -17,7 +17,8 @@ $ npm install
 Make sure you have the following requirements:  field.
 
 * Install and set Metamask in your browser. Set it to listen to the `localhost:8545` chain.
-* update the file at `config/smartContractConfig.js` settings the correct Smart Contract address to use in the `address` filled.
+* Update the file at `config/smartContractConfig.js` setting the correct Smart Contract address to use in the `address` filled.
+* Update the file at `config/smartContractConfig.js` setting the correct Smart Contract build JSON output to use in the `build` filled. This means copying the generated JSON in the `build/contracts/MillionDollarHomepage.json` of the Smart Contract project and putting it in that field. Please note that this configuration should be improved as it is a tedious manual process.
 
 Then just run the web app with
 
