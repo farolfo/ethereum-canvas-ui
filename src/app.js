@@ -32,12 +32,17 @@ const LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 var contract;
 
 /**
+ * The latest scynched block.
+ */
+var latestBlock;
+
+/**
  * We must wait to have the web3 element injected by the browser.
  */
 window.addEventListener('load', function() {
 
   // Check if Web3 has been injected by the browser:
-  if (typeof web3 !== 'undefined') {
+  if (typeof web3 !== 'undefined' && typeof TruffleContract !== 'undefined') {
     // You have a web3 browser! Continue below!
     startApp();
   } else {
@@ -95,12 +100,12 @@ function initWindow() {
             .append('rect')
             .classed('pixel', true)
             .attr('x', d => d.x * PIXEL_SIZE)
-        	  .attr('y', d => d.y * PIXEL_SIZE)
-        	  .attr('width', PIXEL_SIZE)
+        	.attr('y', d => d.y * PIXEL_SIZE)
+        	.attr('width', PIXEL_SIZE)
             .attr('height', PIXEL_SIZE)
             .attr('id', d => 'pixel-' + d.x + "-" + d.y)
-            .attr('onclick', d => 'openBuyPixelModal(' + d.x + ',' + d.y + ');')
             .style('fill', 'black')
+            //.attr('loading', "true")
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 }
@@ -134,9 +139,9 @@ function buildTooltipHtml(p) {
   var message = '<strong>Pixel (' + p.x + ',' + p.y + ')</strong><br>';
 
   if (!elem.attr('price') || elem.attr('price') == '0') {
-    message += "<span style='color:green'>FREE!</span>";
+    message += "<span style='color: #17BC65'>FREE!</span>";
   } else {
-    message += "<span style='color:green'>ETH " + elem.attr('price') + "</span>";
+    message += "<span style='color: #D1344E'>OWNED</span>";
   }
 
   return message;
@@ -170,7 +175,7 @@ var targetX, targetY;
 function buyPixel() {
     var price = $('#price').val();
     var color = $('#color').val();
-
+debugger
     return contract.buyPixel(targetX, targetY, color, {
         from: web3.eth.accounts[0],
         value: web3.toWei(price, 'ether')
@@ -207,12 +212,21 @@ function updatePixel(x, y, color, price) {
  * Listens to the Purchase events since the beginning of time and update the window accordingly.
  */
 function listenPurchaseEvents() {
-  const fromBlock = localStorage.getItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY) || 0;
-  const events = contract.Purchase({}, { fromBlock: fromBlock, toBlock: 'latest' });
+  web3.eth.getBlock('latest', function(err, block) {
+      latestBlock = block.number;
 
-  console.log('Listening events from block ' + fromBlock + '...');
+      const fromBlock = localStorage.getItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY) || 0;
+      const events = contract.Purchase({}, { fromBlock: fromBlock, toBlock: latestBlock });
 
-  events.watch(function (error, result) {
+      console.log('Listening events from block ' + fromBlock + '...');
+      events.watch(onPurchaseEvent);
+  });
+}
+
+/**
+ * Handler per Purchase event.
+ */
+function onPurchaseEvent(error, result) {
     if (!error){
       localStorage.setItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY, result.blockNumber);
       updateLocalStorageWindow(result.args.x, result.args.y, result.args.color, result.args.price);
@@ -221,7 +235,6 @@ function listenPurchaseEvents() {
     } else {
       console.error('Got error watching the Purchase event: ' + error);
     }
-  });
 }
 
 function updateLocalStorageWindow(x, y, color, price) {
