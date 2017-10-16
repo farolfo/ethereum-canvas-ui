@@ -2,7 +2,7 @@
 <html>
 <head>
     <!-- CSS dependencies -->
-    <link rel="stylesheet" type="text/css" href="src/styles.css">
+    <link rel="stylesheet" type="text/css" href="src/styles.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
@@ -16,14 +16,14 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script type="text/javascript" src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script type="text/javascript" src="config/smartContractConfig.js"></script>
+    <script type="text/javascript" src="config/config.js"></script>
     <script type="text/javascript" src="src/web3.min.js"></script>
     <script type="text/javascript" src="src/truffle-contract.min.js"></script>
     <script type="text/javascript" src="src/app.js"></script>
 </head>
 <body>
 <div class="header">
-    <h2>Ethereum Millon Dollar Homepage</h2>
+    <h2>Ethereum Canvas</h2>
     <span class="slogan">Own a piece of Computer Science history for 0.01 ETH.</span>
     <span class="menu">
         <span class="item"><a href="https://github.com/farolfo/eth-million-dollar-homepage" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a></span>
@@ -39,16 +39,16 @@
     <span class="centered oz-container">
         <span class="about-item">
             <i class="fa fa-btc" aria-hidden="true"></i>
-            <span class="desc">Built on top of the Blockchain technology that Bitcoin is.</span>
+            <span class="desc">Built on top of Blockchain technology, as Bitcoin is.</span>
         </span>
         <span class="about-item">
             <i class="fa fa-rocket" aria-hidden="true"></i>
             <span class="desc">Using an Ethereum smart contract as backend engine.</span>
         </span>
-        <span class="about-item">
+        <!--<span class="about-item">
             <i class="fa fa-lock" aria-hidden="true"></i>
             <span class="desc">Based on the latest cryptographic security practices.</span>
-        </span>
+        </span> TODO: CHECK-->
         <span class="about-item">
             <i class="fa fa-share-alt" aria-hidden="true"></i>
             <span class="desc">Developed as a decentralized application (DApp).</span>
@@ -63,17 +63,9 @@
 
     <p class="step">1. Hover on any pixel in the above window and click on any that says FREE.</p>
 
-    <p class="step">2. Select the color you want for that pixel, using the color's name or HEX code.</p>
+    <p class="step">2. Select the color you want for that pixel.</p>
 
     <p class="step">3. Click the Buy button and pay with the MetaMask payment dialog.</p>
-
-    <p class="or">or...</p>
-
-    <h3>Buy pixels uploading an image</h3>
-
-    <p class="coming-soon">COMING SOON!</p>
-
-    <p class="coming-soon-desc">You will be able to upload an image of yours and drag it to the window to your desired position, with an optional link.</p>
 </div>
 
 <div class="footer oz-container">
@@ -92,7 +84,7 @@
                     <div class="form-group">
                         <label for="price" class="col-sm-2 control-label">Price (ETH)</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="price" value="0.01" disabled>
+                            <input type="text" class="form-control" id="price" placeholder="0.01">
                         </div>
                     </div>
                     <div class="form-group">

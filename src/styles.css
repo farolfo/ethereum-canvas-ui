@@ -22,10 +22,11 @@
 
 .header .slogan {
     position: absolute;
-    top: 168px;
-    left: 94px;
+    top: 121px;
+    color: rgba(0, 0, 0, 0.62);
+    left: 95px;
     font-family: 'Open Sans', sans-serif;
-    width: 274px;
+    width: 208px;
 }
 
 .header .menu {

@@ -12,7 +12,7 @@ const WINDOW_SIZE = 300;
  *
  * @type {number}
  */
-const PIXEL_SIZE = 1;
+const PIXEL_SIZE = 2;
 
 /**
  * Key used in the localStorage to save the known pixels.

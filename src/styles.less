@@ -1,0 +1,179 @@
+.body {
+    background-color: #fafafa;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.header {
+    width: 100%;
+    color: black;
+    display: inline-block;
+    height: 76px;
+
+    h2 {
+        left: 93px;
+        font-size: 41px;
+        position: absolute;
+        top: 6px;
+        color: #17BC65;
+        font-family: 'Alfa Slab One', cursive;
+        width: 320px;
+    }
+
+    .slogan {
+        position: absolute;
+        top: 121px;
+        color: rgba(0, 0, 0, 0.62);
+        left: 95px;
+        font-family: 'Open Sans', sans-serif;
+        width: 208px;
+    }
+
+    .menu {
+        float: right;
+        font-family: 'Open Sans', sans-serif;
+        margin-right: 66px;
+        margin-top: 25px;
+
+        .item {
+            margin-left: 33px;
+
+            i {
+                margin-right: 4px;
+            }
+
+            a {
+                color: black;
+            }
+        }
+    }
+}
+
+.pixel:hover {
+	fill: rgb(116, 242, 247) !important;
+}
+
+.oz-container {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+}
+
+.about {
+    background-color: #48C1ED;
+    margin-top: 70px;
+    height: 366px;
+    padding-top: 40px;
+    color: white;
+
+    .description {
+        display: block;
+        margin: auto;
+        margin-top: 10px;
+        width: 613px;
+        text-align: center;
+        font-size: 17px;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .about-item {
+        display: inline-block;
+        width: 218px;
+        text-align: center;
+        font-size: 14px;
+        margin-left: 15px;
+        height: 190px;
+        margin-right: 15px;
+        font-family: 'Open Sans', sans-serif;
+        margin-top: 50px;
+    }
+}
+
+.about-item i {
+    font-size: 70px;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.centered {
+    text-align: center;
+}
+
+.buy-pixel {
+    color: #32444D;
+    font-family: 'Open Sans', sans-serif;
+
+    h3 {
+        text-align: center;
+        font-size: 27px;
+        margin-top: 55px;
+    }
+
+    p {
+        text-align: center;
+        margin-top: 40px;
+
+        &.step {
+             margin-top: 19px;
+        }
+    }
+}
+
+.footer {
+    background-color: #3A3B3C;
+    height: 80px;
+    position: absolute;
+    color: white;
+
+    .mail {
+        text-align: center;
+        margin-top: 30px;
+        font-family: 'Open Sans', sans-serif;
+
+        i {
+            margin-right: 8px;
+        }
+    }
+}
+
+#window {
+    position: relative;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.pixel[loading] {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% { opacity: 0; }
+}
