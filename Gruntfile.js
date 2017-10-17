@@ -6,8 +6,8 @@ module.exports = function (grunt) {
         less: {
             dist: {
                 files: {
-                    'src/styles.min.css': [
-                        'src/styles.less'
+                    'src/styles/styles.min.css': [
+                        'src/styles/styles.less'
                     ]
                 },
                 options: {
@@ -15,14 +15,14 @@ module.exports = function (grunt) {
                     // LESS source map
                     // To enable, set sourceMap to true and update sourceMapRootpath based on your install
                     sourceMap: false,
-                    sourceMapFilename: 'src/styles.min.css',
+                    sourceMapFilename: 'src/styles/styles.min.css',
                     sourceMapRootpath: '/'
                 }
             },
             dev: {
                 files: {
-                    'src/styles.min.css': [
-                        'src/styles.less'
+                    'src/styles/styles.min.css': [
+                        'src/styles/styles.less'
                     ]
                 },
                 options: {
@@ -30,7 +30,7 @@ module.exports = function (grunt) {
                     // LESS source map
                     // To enable, set sourceMap to true and update sourceMapRootpath based on your install
                     sourceMap: true,
-                    sourceMapFilename: 'src/styles.min.css',
+                    sourceMapFilename: 'src/styles/styles.min.css',
                     sourceMapRootpath: '/'
                 }
             }
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
         watch: {
             less: {
                 files: [
-                    'src/*.less'
+                    'src/styles/*.less'
                 ],
                 tasks: ['less:dev']
             },
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: [
-                    'src/*.js',
+                    'src/scripts/*.js',
                     'config/*.js'
                 ],
                 tasks: []
@@ -66,8 +66,8 @@ module.exports = function (grunt) {
         },
         clean: {
             dist: [
-                'src/styles.min.css',
-                'src/styles.min.css.map',
+                'src/styles/styles.min.css',
+                'src/styles/styles.min.css.map',
                 'dist/*'
             ]
         },

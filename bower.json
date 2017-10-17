@@ -1,0 +1,23 @@
+{
+  "name": "ethereum-canvas-ui",
+  "description": "Ethereum Canvas UI project.",
+  "main": "",
+  "authors": [
+    "Franco Arolfo <arolfofranco@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart",
+    "contracts",
+    "security",
+    "zeppelin",
+    "d3"
+  ],
+  "homepage": "https://github.com/farolfo/ethereum-canvas-ui",
+  "dependencies": {
+    "truffle-contract": "*",
+    "web3": "^0.19.0"
+  }
+}

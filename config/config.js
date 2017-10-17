@@ -1,6 +1,6 @@
 'use strict';
 
-const smartContractConfig = {
+const config = {
   address: '0x85a84691547b7ccf19d7c31977a7f8c0af1fb25a',
   build: {
        "contract_name": "MillionDollarHomepage",
@@ -162,4 +162,4 @@ var root = typeof self == 'object' && self.self === self && self ||
   typeof global == 'object' && global.global === global && global ||
   this || {};
 
-root.smartContractConfig = smartContractConfig;
+root.config = config;
