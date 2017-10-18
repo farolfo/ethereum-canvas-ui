@@ -22,6 +22,7 @@
     <script type="text/javascript" src="config/config.js"></script>
     <script type="text/javascript" src="bower_components/truffle-contract/dist/truffle-contract.min.js"></script>
     <script type="text/javascript" src="bower_components/web3/dist/web3.min.js"></script>
+    <script type="text/javascript" src="src/lib/jscolor.min.js"></script>
     <script type="text/javascript" src="src/scripts/ethereumCanvasService.js"></script>
     <script type="text/javascript" src="src/scripts/uiCanvas.js"></script>
     <script type="text/javascript" src="src/scripts/app.js"></script>
@@ -51,7 +52,7 @@
 
     <div id="contractNotFound" class="error-container">
         <i class="fa fa-exclamation" aria-hidden="true"></i>
-        <p class="message">The smart contract was not found on the current network. <br/>Please make sure you are connected to the Main Ethereum Network in the MetaMask settings.</p>
+        <p class="message">The smart contract was not found on the current network. <br/>Please make sure you are connected to the Main Ethereum Network in your MetaMask settings.</p>
     </div>
 
     <div id="window">
@@ -78,15 +79,15 @@
     </div>
 
     <div class="buy-pixel oz-container">
-        <h3>Buy a single pixel for 0.01 ETH</h3>
+        <h3>Buy a single pixel</h3>
 
-        <p>Note that you need to use the MetaMask Chrome extension for this action.</p>
+        <p>Note that you need to use the <a href="https://metamask.io/" target="_blank">MetaMask Chrome extension</a> for this action.</p>
 
-        <p class="step"><strong>1.</strong> Hover on any pixel in the above window and click on any that says FREE.</p>
+        <p class="step"><strong>1.</strong> Hover on any pixel in the above canvas and select it.</p>
 
-        <p class="step"><strong>2.</strong> Select the color you want for that pixel.</p>
+        <p class="step"><strong>2.</strong> Pick the color you want and the price to pay (must be bigger than the current price).</p>
 
-        <p class="step"><strong>3.</strong> Click the Buy button and pay with the MetaMask payment dialog.</p>
+        <p class="step"><strong>3.</strong> Pay with the MetaMask payment dialog.</p>
     </div>
 
     <div class="footer oz-container">
@@ -94,7 +95,7 @@
         <p>This is the project I did as work test in the interview process to be a software engineer at Zeppelin Solutions.</p>
     </div>
 
-    <div id="buyPixelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div id="buyPixelModal" class="modal fade" role="dialog" data-keyboard="false" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -112,7 +113,7 @@
                         <div class="form-group">
                             <label for="color" class="col-sm-2 control-label">Color</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="color" placeholder="red, #FAFAFA">
+                                <input id="color" class="jscolor" value="FFFFFF">
                             </div>
                         </div>
                         <div class="form-group">

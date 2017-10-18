@@ -25,7 +25,6 @@ function startApp() {
         ethereumCanvasService.listenPurchaseEvents();
     }).catch(function(err) {
         $('#canvasLoadingSpinner').css('display', 'none');
-        debugger
         $('#contractNotFound').css('display', 'block');
     });
 }

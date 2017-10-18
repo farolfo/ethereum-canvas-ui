@@ -56,12 +56,13 @@ const uiCanvas = {
      * @param y The y coordinate.
      * @param price The payed price for this pixel.
      */
-    updatePixel: function(x, y, color, price) {
+    updatePixel: function(x, y, color, price, owner) {
         console.log('Updating pixel at (' + x + ',' + y + ') with color ' + color + ' and price ' + price);
 
         d3.select('#pixel-' + x + '-' + y)
             .attr('loading', null)
-            .attr('price', price ? web3.fromWei(price, 'ether') : '')
+            .attr('owner', owner)
+            .attr('price', price ? web3.fromWei(price, 'ether') : null)
             .style('fill', color ? color : 'black');
     }
 };
@@ -90,16 +91,12 @@ function buildInitialEmptyWindowData() {
 function buildTooltipHtml(p) {
     var elem = d3.select(this);
 
-    if (elem.attr('loading')) {
-        return '<strong>Loading...</strong>';
-    }
+    var message = '<strong>Pixel (' + p.x + ',' + p.y + ')</strong>';
 
-    var message = '<strong>Pixel (' + p.x + ',' + p.y + ')</strong><br>';
-
-    if (!elem.attr('price') || elem.attr('price') == '0') {
-        message += "<span style='color: #17BC65'>FREE!</span>";
+    if (!elem.attr('owner')) {
+        message += "<br><span style='color: #17BC65'>Available</span>";
     } else {
-        message += "<span style='color: #D1344E'>OWNED</span>";
+        message += "<span style='color: #17BC65; float: right;'>ETH " + elem.attr('price') + "</span><br><span style='color: #D1344E'>Owned by " + elem.attr('owner') + "</span>";
     }
 
     return message;

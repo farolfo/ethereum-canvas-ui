@@ -50,7 +50,7 @@ const ethereumCanvasService = {
                 console.log('Update via localStorage:');
                 let x = key.split(',')[0];
                 let y = key.split(',')[1];
-                uiCanvas.updatePixel(x, y, val.color, val.price);
+                uiCanvas.updatePixel(x, y, val.color, val.price, val.owner);
             });
         }
     },
@@ -77,17 +77,17 @@ const ethereumCanvasService = {
 function onPurchaseEvent(error, result) {
     if (!error){
         localStorage.setItem(LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY, result.blockNumber);
-        updateLocalStorageWindow(result.args.x, result.args.y, result.args.color, result.args.price);
+        updateLocalStorageWindow(result.args.x, result.args.y, result.args.color, result.args.price, result.args.owner);
 
-        uiCanvas.updatePixel(result.args.x, result.args.y, result.args.color, result.args.price);
+        uiCanvas.updatePixel(result.args.x, result.args.y, result.args.color, result.args.price, result.args.owner);
     } else {
         console.error('Got error watching the Purchase event: ' + error);
     }
 }
 
-function updateLocalStorageWindow(x, y, color, price) {
+function updateLocalStorageWindow(x, y, color, price, owner) {
     var localCanvas = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CANVAS_KEY)) || {};
-    localCanvas[x + ',' + y] = {color: color, price: price};
+    localCanvas[x + ',' + y] = {color: color, price: price, owner: owner};
     localStorage.setItem(LOCAL_STORAGE_CANVAS_KEY, JSON.stringify(localCanvas));
 }
 
@@ -106,7 +106,7 @@ function buyPixel() {
     var price = $('#price').val();
     var color = $('#color').val();
 
-    return contract.buyPixel(targetX, targetY, color, {
+    contract.buyPixel(targetX, targetY, color, {
         from: web3.eth.accounts[0],
         value: web3.toWei(price, 'ether')
     });
@@ -118,6 +118,10 @@ function buyPixel() {
 function openBuyPixelModal() {
     targetX = event.target.getAttribute('x');
     targetY = event.target.getAttribute('y');
+
+    var price = event.target.getAttribute('price') || '1';
+
+    $('#price').val(price);
     $('#targetPixel').text('(' + targetX + ',' + targetY + ')');
     $('#buyPixelModal').modal('show');
 }
