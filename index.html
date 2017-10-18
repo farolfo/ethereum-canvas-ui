@@ -26,88 +26,105 @@
     <script type="text/javascript" src="src/scripts/uiCanvas.js"></script>
     <script type="text/javascript" src="src/scripts/app.js"></script>
 </head>
+
 <body>
-<div class="header">
-    <h2>Ethereum Canvas</h2>
-    <span class="slogan">Paint a piece of Computer Science history</span>
-    <span class="menu">
-        <span class="item"><a href="https://github.com/farolfo/eth-million-dollar-homepage" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a></span>
-    </span>
-</div>
 
-<div id="window"></div>
-
-<div class="about oz-container">
-    <p class="description">Don't miss the opportunity to buy a piece of Computer Science history!</p>
-    <p class="description">Blockchain applications set a new standard in Computer Science and technology, just as the internet did on its beginning.</p>
-
-    <span class="centered oz-container">
-        <span class="about-item">
-            <i class="fa fa-btc" aria-hidden="true"></i>
-            <span class="desc">Built on top of Blockchain technology, as Bitcoin is.</span>
+    <div class="header">
+        <h2>Ethereum Canvas</h2>
+        <span class="slogan">Paint a piece of Computer Science history</span>
+        <span class="menu">
+            <span class="item"><a href="https://github.com/farolfo/eth-million-dollar-homepage" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> Source code</a></span>
         </span>
-        <span class="about-item">
-            <i class="fa fa-rocket" aria-hidden="true"></i>
-            <span class="desc">Using an Ethereum smart contract as backend engine.</span>
+    </div>
+
+    <div id="canvasLoadingSpinner">
+        <div class="spinner">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
+    </div>
+
+    <div id="metaMaskNotInstalled" class="error-container">
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+        <p>You must install the MetaMask Chrome extension in order to use this application.</p>
+    </div>
+
+    <div id="contractNotFound" class="error-container">
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+        <p class="message">The smart contract was not found on the current network. <br/>Please make sure you are connected to the Main Ethereum Network in the MetaMask settings.</p>
+    </div>
+
+    <div id="window">
+    </div>
+
+    <div class="about oz-container">
+        <p class="description">Don't miss the opportunity to own a piece of Computer Science history!</p>
+        <p class="description">Blockchain applications set a new standard in technology, just as the Internet did on its beginning.</p>
+
+        <span class="centered oz-container">
+            <span class="about-item">
+                <i class="fa fa-btc" aria-hidden="true"></i>
+                <span class="desc">Built on top of Blockchain technology, as Bitcoin is.</span>
+            </span>
+            <span class="about-item">
+                <i class="fa fa-rocket" aria-hidden="true"></i>
+                <span class="desc">Using an Ethereum smart contract as backend engine.</span>
+            </span>
+            <span class="about-item">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+                <span class="desc">Developed as a decentralized application (DApp).</span>
+            </span>
         </span>
-        <!--<span class="about-item">
-            <i class="fa fa-lock" aria-hidden="true"></i>
-            <span class="desc">Based on the latest cryptographic security practices.</span>
-        </span> TODO: CHECK-->
-        <span class="about-item">
-            <i class="fa fa-share-alt" aria-hidden="true"></i>
-            <span class="desc">Developed as a decentralized application (DApp).</span>
-        </span>
-    </span>
-</div>
+    </div>
 
-<div class="buy-pixel oz-container">
-    <h3>Buy a single pixel for 0.01 ETH</h3>
+    <div class="buy-pixel oz-container">
+        <h3>Buy a single pixel for 0.01 ETH</h3>
 
-    <p>Note that you need to use the MetaMask Chrome extension for this action.</p>
+        <p>Note that you need to use the MetaMask Chrome extension for this action.</p>
 
-    <p class="step">1. Hover on any pixel in the above window and click on any that says FREE.</p>
+        <p class="step"><strong>1.</strong> Hover on any pixel in the above window and click on any that says FREE.</p>
 
-    <p class="step">2. Select the color you want for that pixel.</p>
+        <p class="step"><strong>2.</strong> Select the color you want for that pixel.</p>
 
-    <p class="step">3. Click the Buy button and pay with the MetaMask payment dialog.</p>
-</div>
+        <p class="step"><strong>3.</strong> Click the Buy button and pay with the MetaMask payment dialog.</p>
+    </div>
 
-<div class="footer oz-container">
-    <div class="mail"><i class="fa fa-envelope-o" aria-hidden="true"></i>  Keep in touch with us at <strong>contacto@email.com</strong></div>
-</div>
+    <div class="footer oz-container">
+        <h3>Why did I do this?</h3>
+        <p>This is the project I did as work test in the interview process to be a software engineer at Zeppelin Solutions.</p>
+    </div>
 
-<div id="buyPixelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Buy the pixel at <span id="targetPixel"></span></h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="price" class="col-sm-2 control-label">Price (ETH)</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="price" placeholder="0.01">
+    <div id="buyPixelModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Buy the pixel at <span id="targetPixel"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2 control-label">Price (ETH)</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="price" placeholder="0.01">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="color" class="col-sm-2 control-label">Color</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="color" placeholder="red, #FAFAFA">
+                        <div class="form-group">
+                            <label for="color" class="col-sm-2 control-label">Color</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="color" placeholder="red, #FAFAFA">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" onclick="buyPixel();" class="btn btn-default">Buy</button>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" onclick="buyPixel();" class="btn btn-default">Buy</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 </body>
 </html>

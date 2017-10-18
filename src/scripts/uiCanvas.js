@@ -20,6 +20,8 @@ const uiCanvas = {
      * Initializes the window grid.
      */
     init: function() {
+        $('#canvasLoadingSpinner').css('display', 'none');
+
         var tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])

@@ -1,6 +1,7 @@
-.body {
+body {
     background-color: #fafafa;
     font-family: 'Open Sans', sans-serif;
+    min-width: 1173px;
 }
 
 .header {
@@ -45,6 +46,28 @@
                 color: black;
             }
         }
+    }
+}
+
+.error-container {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color: #D1344E;
+    top: 412px;
+    display: none;
+
+    i {
+        font-size: 65px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    p {
+        display: inline-block;
+        width: 265px;
+        margin-left: 20px;
+        vertical-align: middle;
     }
 }
 
@@ -101,11 +124,13 @@
 .buy-pixel {
     color: #32444D;
     font-family: 'Open Sans', sans-serif;
+    padding-bottom: 50px;
 
     h3 {
         text-align: center;
         font-size: 27px;
         margin-top: 55px;
+        color: #17BC65;
     }
 
     p {
@@ -120,18 +145,21 @@
 
 .footer {
     background-color: #3A3B3C;
-    height: 80px;
+    height: 140px;
     position: absolute;
-    color: white;
+    min-width: 1173px;
 
-    .mail {
+    h3 {
+        color: white;
         text-align: center;
-        margin-top: 30px;
-        font-family: 'Open Sans', sans-serif;
+        margin-top: 40px;
+    }
 
-        i {
-            margin-right: 8px;
-        }
+    p {
+        text-align: center;
+        margin-top: 20px;
+        font-family: 'Open Sans', sans-serif;
+        color: white;
     }
 }
 
@@ -139,6 +167,7 @@
     position: relative;
     text-align: center;
     margin-top: 50px;
+    min-height: 606px;
 
     svg {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -146,32 +175,32 @@
 }
 
 .d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
 }
 
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
 }
 
 /* Style northward tooltips differently */
 .d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
 }
 
 .pixel[loading] {
@@ -180,4 +209,60 @@
 
 @keyframes blinker {
     50% { opacity: 0; }
+}
+
+.spinner {
+    margin: 100px auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+#canvasLoadingSpinner {
+    position: absolute;
+    width: 100%;
+    top: 250px;
+}
+
+.cube1, .cube2 {
+    background-color: #D1344E;;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
+    animation: sk-cubemove 1.8s infinite ease-in-out;
+}
+
+.cube2 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+@-webkit-keyframes sk-cubemove {
+    25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+    50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+    75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+    100% { -webkit-transform: rotate(-360deg) }
+}
+
+@keyframes sk-cubemove {
+    25% {
+        transform: translateX(42px) rotate(-90deg) scale(0.5);
+        -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
+    } 50% {
+        transform: translateX(42px) translateY(42px) rotate(-179deg);
+        -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+    } 50.1% {
+        transform: translateX(42px) translateY(42px) rotate(-180deg);
+        -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+    } 75% {
+        transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+        -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+    } 100% {
+        transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+    }
 }
