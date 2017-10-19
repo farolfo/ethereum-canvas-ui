@@ -13,6 +13,18 @@ const LOCAL_STORAGE_CANVAS_KEY = "localCanvas";
 const LOCAL_STORAGE_LAST_CHECKED_BLOCK_KEY = "lastCheckedBlock";
 
 /**
+ * The minimum increment we accept when beating the current price of an already owned pixel.
+ * @type {double}
+ */
+const EPSILON = 1e-6;
+
+/**
+ * The minimum ETH we accept to buy a non-owned pixel.
+ * @type {double}
+ */
+const MIN_ACCEPTED_ETH = EPSILON;
+
+/**
  * The global smart contract.
  */
 var contract;
@@ -26,8 +38,6 @@ const ethereumCanvasService = {
 
     /**
      * Initializes the smart contract with the given EthContract instance.
-     *
-     * @param ethContract The EthContract instance to be used.
      */
     initContract: function() {
         var truffleContract = TruffleContract(config.build);
@@ -38,10 +48,18 @@ const ethereumCanvasService = {
         return truffleContract.deployed();
     },
 
+    /**
+     * Sets the service to use this contract. (This could be part of the init logic)
+     *
+     * @param ethContract The EthContract instance to be used.
+     */
     setContract: function(instance) {
         contract = instance;
     },
 
+    /**
+     * Updates the current canvas with the information stored in the local storage.
+     */
     updateCanvasFromLocalStorage: function() {
         var localCanvas = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CANVAS_KEY));
 
@@ -68,6 +86,20 @@ const ethereumCanvasService = {
             console.log('Listening events from block ' + fromBlock + '...');
             events.watch(onPurchaseEvent);
         });
+    },
+
+    /**
+     * Returns the minimum increment we accept when beating the current price of an already owned pixel.
+     */
+    getEpsilon: function() {
+        return EPSILON;
+    },
+
+    /**
+     * Returns the minimum ETH we accept to buy a non-owned pixel.
+     */
+    getMinAcceptedEth: function() {
+        return MIN_ACCEPTED_ETH;
     }
 };
 
@@ -85,49 +117,14 @@ function onPurchaseEvent(error, result) {
     }
 }
 
+/**
+ * Updates the local storage with the given pixel information.
+ */
 function updateLocalStorageWindow(x, y, color, price, owner) {
     var localCanvas = JSON.parse(localStorage.getItem(LOCAL_STORAGE_CANVAS_KEY)) || {};
     localCanvas[x + ',' + y] = {color: color, price: price, owner: owner};
     localStorage.setItem(LOCAL_STORAGE_CANVAS_KEY, JSON.stringify(localCanvas));
 }
-
-
-/**
- * Variables used to share the pixel coordinates to purchase.
- */
-var targetX, targetY;
-
-/**
- * Performs the purchase of the pixel in the (targetX, targetY) coordinates.
- *
- * @returns {*} The transaction response.
- */
-function buyPixel() {
-    var price = $('#price').val();
-    var color = $('#color').val();
-
-    contract.buyPixel(targetX, targetY, color, {
-        from: web3.eth.accounts[0],
-        value: web3.toWei(price, 'ether')
-    });
-}
-
-/**
- * Configures the purchase modal header and opens the modal.
- */
-function openBuyPixelModal() {
-    targetX = event.target.getAttribute('x');
-    targetY = event.target.getAttribute('y');
-
-    var price = event.target.getAttribute('price') || '1';
-
-    $('#price').val(price);
-    $('#targetPixel').text('(' + targetX + ',' + targetY + ')');
-    $('#buyPixelModal').modal('show');
-}
-
-window.openBuyPixelModal = openBuyPixelModal;
-window.buyPixel = buyPixel;
 
 var root = typeof self == 'object' && self.self === self && self ||
   typeof global == 'object' && global.global === global && global ||

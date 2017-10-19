@@ -63,7 +63,7 @@ const uiCanvas = {
             .attr('loading', null)
             .attr('owner', owner)
             .attr('price', price ? web3.fromWei(price, 'ether') : null)
-            .style('fill', color ? color : 'black');
+            .style('fill', color ? color : 'white');
     }
 };
 

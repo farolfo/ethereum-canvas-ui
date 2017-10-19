@@ -3,3 +3,4 @@ node_modules/
 npm-debug.log
 bundle.js
 src/styles/styles.min.css
+.DS_Store

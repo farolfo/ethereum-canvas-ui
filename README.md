@@ -24,16 +24,17 @@ Make sure you have the `grunt-cli` command installed in order to use the [Grunt]
 npm install -g grunt-cli
 ```
 
-### Build
+### Configure
 
-Update the file at `config/config.js` setting the correct Smart Contract build JSON output to use in the `build` filled. This means copying the generated JSON in the `build/contracts/MillionDollarHomepage.json` of the Smart Contract project and putting it in that field. Please note that this configuration should be improved as it is a tedious manual process.
+Update the file at `config/config.js` setting the correct Smart Contract build JSON output. This means copying the generated JSON in the `build/contracts/EthereumContract.json` of the Smart Contract project and putting it in that field.
+
+Please note that this configuration should be improved as it is a tedious manual process, but is also a good practice to keep the latest smart contract abi committed in the file in the mid time.
+
+Also update the `config/config.js` setting the right Smart Contract address.
 
 ### Deploy and run
 
-Make sure you have the following requirements:
-
-* Install [MetaMask](https://metamask.io/) in your browser. Set it to listen to the `localhost:8545` chain.
-* Update the file at `config/smartContractConfig.js` setting the correct Smart Contract address to use in the `address` filled.
+Make sure you have installed [MetaMask](https://metamask.io/) in your browser. Set it to listen to the `localhost:8545` chain.
 
 Then just run the web app with
 
@@ -41,4 +42,4 @@ Then just run the web app with
 $ npm run deploy
 ```
 
-And go to `localhost:8000`
+And go to `localhost:9000`.
